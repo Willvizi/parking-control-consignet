@@ -15,16 +15,13 @@ public class WebSecurityConfigV2 {
 
     @Bean
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
-        return httpSecuritu
-                .httpBasic()
-                .and()
-                .authorizeHttpRequests()
-//                .antMatchers(HttpMethod.GET, "/parking-spot/**").permitAll()
-//                .antMatchers(HttpMethod.POST, "/parking-spot").hasRole("USER")
-//                .antMatchers(HttpMethod.DELETE, "/parking-spot/**").hasRole("ADMIN")
-                .anyRequest().authenticated()
-                .and()
-                .csrf().disable();
+        http
+                .authorizeHttpRequests(authorize -> authorize
+                        .requestMatchers(HttpMethod.GET,"/parking-spot/**").permitAll()
+                        .requestMatchers(HttpMethod.POST, "/parking-spot").hasRole("USER")
+                        .requestMatchers(HttpMethod.DELETE, "/parking-spot/**").hasRole("ADMIN")
+                        .anyRequest().authenticated()
+                );
         return http.build();
     }
 
